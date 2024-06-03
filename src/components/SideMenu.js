@@ -9,16 +9,14 @@ const SideMenu = () => {
   const onClick = (e) => {
     switch (e.key) {
         case '1':
-          setDifficulty({ rows: 5, cols: 5, bombs: 10 });
-          break;
-        case '2':
           setDifficulty({ rows: 10, cols: 10, bombs: 20 });
           break;
-        case '3':
+        case '2':
           setDifficulty({ rows: 15, cols: 15, bombs: 30 });
           break;
-        default:
-          setDifficulty({ rows: 5, cols: 5, bombs: 10 });
+        case '3':
+          setDifficulty({ rows: 20, cols: 20, bombs: 40 });
+          break;
       }
   };
 

@@ -36,3 +36,42 @@
     transform: rotate(360deg);
   }
 }
+
+.header {
+  background-color: #f0f0f0;
+  padding: 5px;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.footer {
+  background-color: #202020;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.main-content {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  padding-top: 120px; 
+  min-height: calc(100vh - 120px); 
+}
+
+.SideMenu {
+  flex: 1; 
+  padding-right: 20px;
+}
+
+.Board {
+  flex: 2; 
+  display: block; 
+}

@@ -6,17 +6,40 @@ import { DifficultyContext } from './util/DifficultyContext';
 
 function App() {
 
-  const [difficulty, setDifficulty] = useState({ rows: 5, cols: 5, bombs: 10 });
+  const [difficulty, setDifficulty] = useState({ rows: 10, cols: 10, bombs: 20 });
 
   return (
     <div className="App">
-      <h1>Minesweeper</h1>
-      <DifficultyContext.Provider value={{ difficulty, setDifficulty }}>
-        <Board/>
-        <SideMenu/>
-      </DifficultyContext.Provider>
+      <Header/>
+      <div className='main-content'>
+        <DifficultyContext.Provider value={{ difficulty, setDifficulty }}>
+          <div className="SideMenu">
+            <SideMenu/>
+          </div>
+          <div className="Board">
+            <Board/>
+          </div>
+        </DifficultyContext.Provider>
+      </div>
+      <Footer/>
     </div>
   );
 }
+
+const Header = () => {
+  return (
+    <header className="header">
+      <h1>Minesweeper</h1>
+    </header>
+  );
+};
+
+const Footer = () => {
+  return (
+    <footer className="footer">
+      <p>© 2024 Aristotelis Loucaides. All rights reserved.</p>
+    </footer>
+  );
+};
 
 export default App;
