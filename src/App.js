@@ -1,23 +1,20 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Board from './components/Board';
+import SideMenu from './components/SideMenu';
+import { DifficultyContext } from './util/DifficultyContext';
 
 function App() {
+
+  const [difficulty, setDifficulty] = useState({ rows: 5, cols: 5, bombs: 10 });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Minesweeper</h1>
+      <DifficultyContext.Provider value={{ difficulty, setDifficulty }}>
+        <Board/>
+        <SideMenu/>
+      </DifficultyContext.Provider>
     </div>
   );
 }
