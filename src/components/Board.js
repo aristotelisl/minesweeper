@@ -4,55 +4,61 @@ import { DifficultyContext } from '../util/DifficultyContext';
 import { reveal } from '../util/reveal.js';
 import Cell from './Cell';
 
-const Board = ({ minesLeft, setMinesLeft }) => {
+const Board = () => {
   const [grid, setGrid] = useState([]);
   const [nonMineCount, setNonMineCount] = useState(0);
   const [mineLocations, setMineLocations] = useState([]);
   const { difficulty } = useContext(DifficultyContext);
-  const [time, setTime] = useState(0);
-  const [timerRunning, setTimerRunning] = useState(false);
+  const [timer, setTimer] = useState(0);
+  const [flagsPlaced, setFlagsPlaced] = useState(0);
 
+  // Timer control
   useEffect(() => {
+    let interval = null;
+
+    if (grid.length > 0 && nonMineCount > 0) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer + 1);
+      }, 1000);
+    }
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [grid, nonMineCount]);
+
+  // Reset timer and mines left count when board changes
+  useEffect(() => {
+    setTimer(0);
+    setFlagsPlaced(0);
+  }, [difficulty]);
+
+  // ComponentDidMount
+  useEffect(() => {
+    // Creating Board
     function freshBoard() {
       const newBoard = createBoard(difficulty.rows, difficulty.cols, difficulty.bombs);
       setNonMineCount(difficulty.rows * difficulty.cols - difficulty.bombs);
       setMineLocations(newBoard.mineLocation);
       setGrid(newBoard.board);
-      setMinesLeft(difficulty.bombs);
     }
     freshBoard();
-  }, [difficulty, setMinesLeft]);
+  }, [difficulty]);
 
-  useEffect(() => {
-    let timer;
-    if (timerRunning) {
-      timer = setInterval(() => {
-        setTime(prevTime => prevTime + 1);
-      }, 1000);
-    } else {
-      clearInterval(timer);
-    }
-
-    return () => clearInterval(timer);
-  }, [timerRunning]);
-
+  // On right click (to place or remove flag)
   const updateFlag = (e, x, y) => {
     e.preventDefault();
     let newGrid = JSON.parse(JSON.stringify(grid));
-
-    if (newGrid[x][y].flagged) {
-      newGrid[x][y].flagged = false;
-      setMinesLeft(prevMinesLeft => prevMinesLeft + 1);
-    } else {
-      newGrid[x][y].flagged = true;
-      setMinesLeft(prevMinesLeft => prevMinesLeft - 1);
-    }
-
+    newGrid[x][y].flagged ? (newGrid[x][y].flagged = false) : (newGrid[x][y].flagged = true);
     setGrid(newGrid);
+
+    // Update flags placed count
+    let newFlagsPlaced = flagsPlaced + (newGrid[x][y].flagged ? 1 : -1);
+    setFlagsPlaced(newFlagsPlaced);
   };
 
+  // Reveal Cell
   const revealCell = (x, y) => {
-    if (!timerRunning) setTimerRunning(true);
     let newGrid = JSON.parse(JSON.stringify(grid));
 
     if (newGrid[x][y].value === 'X') {
@@ -68,20 +74,11 @@ const Board = ({ minesLeft, setMinesLeft }) => {
     }
   };
 
-  const Timer = () => {
-    return <p>Time: {time} seconds</p>;
-  };
-
   return (
     <div>
-      <p>Mines left: {minesLeft}</p>
-      <Timer />
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center'
-        }}>
+      <p>Mines Left: {difficulty.bombs - flagsPlaced}</p>
+      <p>Timer: {timer} seconds</p>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {grid.map((singleRow, index1) => {
           return (
             <div style={{ display: 'flex' }} key={index1}>

@@ -6,7 +6,7 @@ import { DifficultyContext } from './util/DifficultyContext';
 
 function App() {
 
-  const [difficulty, setDifficulty] = useState({ rows: 5, cols: 5, bombs: 5 });
+  const [difficulty, setDifficulty] = useState({ rows: 10, cols: 10, bombs: 20 });
   const [minesLeft, setMinesLeft] = useState(difficulty.bombs);
 
   return (
