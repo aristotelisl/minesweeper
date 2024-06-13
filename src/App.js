@@ -7,6 +7,7 @@ import { DifficultyContext } from './util/DifficultyContext';
 function App() {
 
   const [difficulty, setDifficulty] = useState({ rows: 5, cols: 5, bombs: 5 });
+  const [minesLeft, setMinesLeft] = useState(difficulty.bombs);
 
   return (
     <div className="App">
@@ -17,7 +18,7 @@ function App() {
             <SideMenu/>
           </div>
           <div className="Board">
-            <Board/>
+            <Board minesLeft={minesLeft} setMinesLeft={setMinesLeft}/>
           </div>
         </DifficultyContext.Provider>
       </div>
