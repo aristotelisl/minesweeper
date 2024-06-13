@@ -56,6 +56,12 @@ const Board = () => {
   return (
     <div>
       <p>{nonMineCount}</p>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}>
       {grid.map((singleRow, index1)=>{
         return (
           <div style={{display:'flex'}} key={index1}>
@@ -66,6 +72,8 @@ const Board = () => {
         )
       })
       };
+      </div>
+      
     </div>
   );
 }
